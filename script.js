@@ -16,7 +16,7 @@ var wrapper = svg.append("g").attr("class", "chordWrapper")
 var outerRadius = Math.min(width, height) / 2  - (mobileScreen ? 80 : 100),
 	innerRadius = outerRadius * 0.95,
 	pullOutSize = (mobileScreen? 20 : 50),
-	opacityDefault = 0.7, //default opacity of chords
+	opacityDefault = 0.75, //default opacity of chords
 	opacityLow = 0.02; //hover opacity of those chords not hovered over
 	
 ////////////////////////////////////////////////////////////
@@ -196,7 +196,7 @@ function wrapChord(text, width) {
 		y = 0,
 		x = 0,
 		dy = parseFloat(text.attr("dy")),
-		tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+		tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em").attr("fill","WhiteSmoke");
 
 	while (word = words.pop()) {
 	  line.push(word);
@@ -205,7 +205,7 @@ function wrapChord(text, width) {
 		line.pop();
 		tspan.text(line.join(" "));
 		line = [word];
-		tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+		tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word).attr("fill","WhiteSmoke");
 	  }
 	}
   });
