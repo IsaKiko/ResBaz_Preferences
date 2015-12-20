@@ -6,11 +6,11 @@ var margin = {left: 50, top: 10, right: 50, bottom: 10},
 	width = Math.min(screenWidth, 800) - margin.left - margin.right,
 	height = (mobileScreen ? 300 : Math.min(screenWidth, 800)*5/6) - margin.top - margin.bottom;
 			
-var svg = d3.select("#chart2").append("svg")
+var svg2 = d3.select("#chart2").append("svg")
 			.attr("width", (width + margin.left + margin.right))
 			.attr("height", (height + margin.top + margin.bottom));
 			
-var wrapper = svg.append("g").attr("class", "chordWrapper")
+var wrapper2 = svg2.append("g").attr("class", "chordWrapper2")
 			.attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");;
 			
 var outerRadius = Math.min(width, height) / 2  - (mobileScreen ? 80 : 100),
@@ -67,7 +67,7 @@ var chord = customChordLayout() //d3.layout.chord()//Custom sort function of the
 	.sortChords(d3.descending) //which chord should be shown on top when chords cross. Now the biggest chord is at the bottom
 	.matrix(matrix);
 	
-var arc = d3.svg.arc()
+var arc2 = d3.svg.arc()
 	.innerRadius(innerRadius)
 	.outerRadius(outerRadius)
 	.startAngle(startAngle) //startAngle and endAngle now include the offset in degrees
@@ -82,7 +82,7 @@ var path = stretchedChord()
 //////////////////// Draw outer Arcs ///////////////////////
 ////////////////////////////////////////////////////////////
 
-var g = wrapper.selectAll("g.group")
+var g = wrapper2.selectAll("g.group")
 	.data(chord.groups)
 	.enter().append("g")
 	.attr("class", "group")
@@ -112,7 +112,7 @@ g.append("text")
 	.attr("class", "titles")
 	.attr("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
 	.attr("transform", function(d,i) { 
-		var c = arc.centroid(d);
+		var c = arc2.centroid(d);
 		return "translate(" + (c[0] + d.pullOutSize) + "," + c[1] + ")"
 		+ "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
 		+ "translate(" + 55 + ",0)"
@@ -125,7 +125,7 @@ g.append("text")
 //////////////////// Draw inner chords /////////////////////
 ////////////////////////////////////////////////////////////
  
-var chords = wrapper.selectAll("path.chord")
+var chords = wrapper2.selectAll("path.chord")
 	.data(chord.chords)
 	.enter().append("path")
 	.attr("class", "chord")
@@ -162,7 +162,7 @@ function endAngle(d) { return d.endAngle + offset; }
 // Returns an event handler for fading a given chord group
 function fade(opacity) {
   return function(d, i) {
-	wrapper.selectAll("path.chord")
+	wrapper2.selectAll("path.chord")
 		.filter(function(d) { return d.source.index != i && d.target.index != i && Names[d.source.index] != ""; })
 		.transition()
 		.style("opacity", opacity);
@@ -172,7 +172,7 @@ function fade(opacity) {
 // Fade function when hovering over chord
 function fadeOnChord(d) {
 	var chosen = d;
-	wrapper.selectAll("path.chord")
+	wrapper2.selectAll("path.chord")
 		.transition()
 		.style("opacity", function(d) {
 			if (d.source.index == chosen.source.index && d.target.index == chosen.target.index) {
